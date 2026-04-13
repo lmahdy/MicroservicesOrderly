@@ -12,19 +12,19 @@ import { FormsModule } from '@angular/forms';
     <h1 class="page-title">📢 Complaints Management</h1>
     <div class="card">
       <div class="hdr"><h3>All Complaints ({{complaints.length}})</h3><button class="btn-secondary" (click)="load()">↻ Refresh</button></div>
-      <p class="info">💡 Complaints are auto-created when an order is placed (via RabbitMQ). Admins can update the status here.</p>
       <div *ngIf="loading" class="empty">Loading...</div>
-      <div *ngIf="!loading && complaints.length === 0" class="empty">No complaints yet. They appear automatically when orders are placed and RabbitMQ is running.</div>
+      <div *ngIf="!loading && complaints.length === 0" class="empty">No complaints found.</div>
       <div class="table-wrap" *ngIf="complaints.length > 0">
         <table>
-          <thead><tr><th>ID</th><th>Order</th><th>Client</th><th>Description</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+          <thead><tr><th>ID</th><th>Order</th><th>Client</th><th>Description</th><th>Status</th><th>Response</th><th>Date</th><th>Action</th></tr></thead>
           <tbody>
             <tr *ngFor="let c of complaints">
               <td>#{{c.id}}</td>
-              <td>Order #{{c.orderId}}</td>
-              <td>{{c.clientId}}</td>
+              <td>{{ c.orderId ? 'Order #' + c.orderId : '—' }}</td>
+              <td class="client-id" title="{{c.clientId}}">{{c.clientId | slice:0:8}}…</td>
               <td class="desc">{{c.description}}</td>
               <td><span class="badge" [class]="c.status?.toLowerCase()">{{c.status}}</span></td>
+              <td class="desc">{{c.response || '—'}}</td>
               <td>{{c.createdAt | date:'short'}}</td>
               <td>
                 <select class="status-sel" [(ngModel)]="c._newStatus">
@@ -48,7 +48,6 @@ import { FormsModule } from '@angular/forms';
     .card { background: white; border-radius: 16px; padding: 24px; }
     .hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     h3 { margin: 0; color: #333; }
-    .info { color: #777; font-size: 0.85rem; margin: 0 0 16px; padding: 10px; background: #f8f9ff; border-radius: 8px; border-left: 3px solid #667eea; }
     .btn-secondary { background: #f0f2f8; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; }
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
