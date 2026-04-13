@@ -7,9 +7,7 @@ import lombok.Data;
 
 @Data
 public class ComplaintRequest {
-    @NotNull
     private Long orderId;
-    @NotNull
     private String clientId;
     @NotBlank
     private String description;

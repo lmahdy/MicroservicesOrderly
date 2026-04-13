@@ -28,6 +28,7 @@ export const routes: Routes = [
       { path: 'stores', loadComponent: () => import('./components/client-stores.component').then(m => m.ClientStoresComponent) },
       { path: 'products', loadComponent: () => import('./components/client-products.component').then(m => m.ClientProductsComponent) },
       { path: 'orders', loadComponent: () => import('./components/client-orders.component').then(m => m.ClientOrdersComponent) },
+      { path: 'complaints', loadComponent: () => import('./components/client-complaints.component').then(m => m.ClientComplaintsComponent) },
       { path: 'tracking', loadComponent: () => import('./components/client-tracking.component').then(m => m.ClientTrackingComponent) },
       { path: '', redirectTo: 'stores', pathMatch: 'full' },
     ]

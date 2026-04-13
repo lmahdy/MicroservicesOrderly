@@ -35,6 +35,7 @@ import { CommonModule } from '@angular/common';
         <ul *ngIf="isClient">
           <li><a routerLink="/client/stores">🏪 Stores</a></li>
           <li><a routerLink="/client/orders">📋 My Orders</a></li>
+          <li><a routerLink="/client/complaints">📢 My Complaints</a></li>
           <li><a routerLink="/client/tracking">🚚 Track Delivery</a></li>
         </ul>
 

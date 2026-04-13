@@ -48,7 +48,10 @@ export class ApiService {
 
   // ── Complaints ─────────────────────────────────────────
   getComplaints(): Observable<any[]> { return this.http.get<any[]>(`${G}/api/complaints`); }
+  getComplaintsByClient(clientId: string): Observable<any[]> { return this.http.get<any[]>(`${G}/api/complaints/client/${clientId}`); }
   createComplaint(body: any): Observable<any> { return this.http.post<any>(`${G}/api/complaints`, body); }
+  updateComplaint(id: number, body: any): Observable<any> { return this.http.put<any>(`${G}/api/complaints/${id}`, body); }
+  deleteComplaint(id: number): Observable<any> { return this.http.delete(`${G}/api/complaints/${id}`); }
   updateComplaintStatus(id: number, status: string): Observable<any> {
     return this.http.patch<any>(`${G}/api/complaints/${id}/status/${status}`, null);
   }

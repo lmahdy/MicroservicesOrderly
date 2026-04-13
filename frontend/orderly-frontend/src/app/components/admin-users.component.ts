@@ -32,7 +32,7 @@ import { FormsModule } from '@angular/forms';
       <h3>All Users ({{users.length}})</h3>
       <div *ngIf="loading" class="empty">Loading...</div>
       <table *ngIf="!loading && users.length > 0">
-        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th></tr></thead>
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Actions</th></tr></thead>
         <tbody>
           <tr *ngFor="let u of users">
             <td>#{{u.id}}</td>
@@ -40,6 +40,7 @@ import { FormsModule } from '@angular/forms';
             <td>{{u.email}}</td>
             <td>{{u.phone || '—'}}</td>
             <td><span class="badge" [class]="u.role?.toLowerCase()">{{u.role}}</span></td>
+            <td><button class="del-btn" (click)="deleteUser(u)" title="Delete user">🗑️ Delete</button></td>
           </tr>
         </tbody>
       </table>
@@ -66,6 +67,8 @@ import { FormsModule } from '@angular/forms';
     .badge.client { background: #e0f0ff; color: #0060c0; }
     .badge.livreur { background: #e0ffe8; color: #007820; }
     .badge.admin { background: #f5e0ff; color: #7000a8; }
+    .del-btn { background: #ffe0e0; color: #c00; border: none; border-radius: 8px; padding: 5px 12px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+    .del-btn:hover { background: #ffc0c0; }
   `]
 })
 export class AdminUsersComponent implements OnInit {
@@ -86,6 +89,15 @@ export class AdminUsersComponent implements OnInit {
         this.success = ''; this.error = '';
         this.api.createUser(this.form).subscribe({
             next: () => { this.success = 'User created!'; this.form = {}; this.load(); },
+            error: e => this.error = 'Error: ' + (e.error?.message || e.message)
+        });
+    }
+
+    deleteUser(u: any) {
+        if (!confirm(`Delete user "${u.fullName}" (${u.email})?`)) return;
+        this.success = ''; this.error = '';
+        this.api.deleteUser(u.id).subscribe({
+            next: () => { this.success = `User "${u.fullName}" deleted.`; this.load(); setTimeout(() => this.success = '', 3000); },
             error: e => this.error = 'Error: ' + (e.error?.message || e.message)
         });
     }

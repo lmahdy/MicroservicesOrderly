@@ -21,7 +21,6 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private Long orderId;
 
     @NotNull
